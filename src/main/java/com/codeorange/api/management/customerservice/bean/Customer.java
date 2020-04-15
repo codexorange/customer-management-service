@@ -3,12 +3,10 @@ package com.codeorange.api.management.customerservice.bean;
 import com.github.fabiomaffioletti.firebase.document.FirebaseDocument;
 import com.github.fabiomaffioletti.firebase.document.FirebaseId;
 
-import java.util.Date;
-
-import static com.codeorange.api.management.customerservice.util.DateUtil.getAgeFromBirthDate;
+import static com.codeorange.api.management.customerservice.util.DateUtil.getDateFromString;
 
 @FirebaseDocument("/customers")
-public class Customer {
+public class Customer implements Comparable<Customer> {
 
     @FirebaseId
     private String id;
@@ -16,6 +14,7 @@ public class Customer {
     private String firstName;
     private String lastName;
     private String birthDate;
+    private int age;
     private String createdAt;
 
     public String getId() {
@@ -54,6 +53,14 @@ public class Customer {
         this.birthDate = birthDate;
     }
 
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     public String getCreatedAt() {
         return createdAt;
     }
@@ -62,8 +69,13 @@ public class Customer {
         this.createdAt = createdAt;
     }
 
-    public int getAge() {
-        return getAgeFromBirthDate(this.birthDate);
+    @Override
+    public int compareTo(Customer c) {
+        if (getDateFromString(getCreatedAt()) == null ||
+            getDateFromString(c.getCreatedAt()) == null) {
+            return 0;
+        }
+        return getDateFromString(c.getCreatedAt()).compareTo(getDateFromString(getCreatedAt()));
     }
 
 }

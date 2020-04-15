@@ -6,6 +6,7 @@ import com.codeorange.api.management.customerservice.repository.CustomerReposito
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +22,9 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public List<Customer> getAll() {
-        return customerRepository.findAll();
+        List<Customer> customers = customerRepository.findAll();
+        Collections.sort(customers);
+        return customers;
     }
 
     @Override

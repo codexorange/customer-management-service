@@ -2,25 +2,18 @@ package com.codeorange.api.management.customerservice.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
 import java.util.Date;
 
 public class DateUtil {
 
-    public static Integer getAgeFromBirthDate(String birthDate) {
-        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+    public static Date getDateFromString(String stringDate) {
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         try {
-            Date date = f.parse(birthDate.substring(0, 9));
-            LocalDate l = date.toInstant()
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDate();
-            Period diff = Period.between(l, LocalDate.now());
-            return diff.getYears();
-        } catch (ParseException e) {
-            e.printStackTrace();
+            Date date = f.parse(stringDate.substring(0, 18));
+            return date;
+        } catch (ParseException ex) {
+            ex.printStackTrace();
         }
-        return 0;
+        return null;
     }
 }
